@@ -1,17 +1,33 @@
+import os
 import subprocess
+from pathlib import Path
 from sandbox import WORKSPACE_ROOT
 from audit import log_call
 
+# Git data lives OUTSIDE the workspace so agents can't tamper with it
+GIT_DIR = Path(__file__).resolve().parent.parent / ".workspace-git"
+
 
 def _git(*args: str) -> str:
-    """Run a git command inside the workspace and return its output."""
+    """Run a git command on the workspace and return its output."""
     WORKSPACE_ROOT.mkdir(exist_ok=True)
-    if not (WORKSPACE_ROOT / ".git").exists():
-        subprocess.run(["git", "init"], cwd=WORKSPACE_ROOT, capture_output=True, text=True)
+    env = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}  # never wait for a prompt
     try:
+        if not GIT_DIR.exists():
+            subprocess.run(
+                ["git", "init", "--bare", str(GIT_DIR)],
+                capture_output=True, text=True, timeout=20,
+                stdin=subprocess.DEVNULL, env=env,
+            )
         result = subprocess.run(
-            ["git", *args], cwd=WORKSPACE_ROOT,
-            capture_output=True, text=True, timeout=20,
+            ["git", "-c", "gc.auto=0", "-c", "maintenance.auto=false",
+             f"--git-dir={GIT_DIR}", f"--work-tree={WORKSPACE_ROOT}", *args],
+            cwd=WORKSPACE_ROOT,
+            capture_output=True,
+            text=True,
+            timeout=20,
+            stdin=subprocess.DEVNULL,  # never touch the MCP stdio channel
+            env=env,
         )
     except FileNotFoundError:
         raise ValueError("git is not installed or not on PATH.")

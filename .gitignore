@@ -1,4 +1,11 @@
 ﻿.venv/
 .env
 __pycache__/
-workspace/
+.workspace-git/
+
+# Ignore agent work files, but keep the 4 handoff files as evidence
+workspace/*
+!workspace/PROJECT_STATE.md
+!workspace/PLAN_LOG.md
+!workspace/CHECKPOINTS.md
+!workspace/DECISIONS.md
