@@ -1,3 +1,4 @@
+import hashlib
 import hmac
 import sys
 
@@ -9,6 +10,11 @@ from audit import log_call
 from server import mcp
 
 
+def _fp(text: str) -> str:
+    """Short fingerprint so we can compare tokens without revealing them."""
+    return hashlib.sha256(text.encode()).hexdigest()[:8]
+
+
 class TokenAuth:
     """Reject every HTTP request that lacks the correct bearer token."""
 
@@ -17,10 +23,17 @@ class TokenAuth:
 
     async def __call__(self, scope, receive, send):
         if scope["type"] == "http":
-            supplied = dict(scope["headers"]).get(b"authorization", b"")
+            raw = dict(scope["headers"]).get(b"authorization", b"")
             expected = f"Bearer {config.MCP_TOKEN}".encode()
-            if not hmac.compare_digest(supplied, expected):  # constant-time compare
-                log_call("auth_failed", scope.get("path", "?"))
+            if not hmac.compare_digest(raw, expected):  # constant-time compare
+                supplied = raw.decode("latin-1")
+                scheme, _, tok = supplied.partition(" ")
+                log_call(
+                    "auth_failed",
+                    f"{scope.get('method')} {scope.get('path')} "
+                    f"header_len={len(supplied)} scheme={scheme!r} "
+                    f"got_fp={_fp(tok) if tok else 'none'} want_fp={_fp(config.MCP_TOKEN)}",
+                )
                 response = JSONResponse({"error": "unauthorized"}, status_code=401)
                 await response(scope, receive, send)
                 return

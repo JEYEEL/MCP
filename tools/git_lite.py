@@ -42,6 +42,7 @@ def register(mcp):
     @mcp.tool()
     def git_status() -> str:
         """Show which workspace files are new, changed or deleted since the last commit."""
+        log_call("git_status", "")
         out = _git("status", "--short")
         return out or "Working tree clean. Nothing to commit."
 
@@ -62,5 +63,11 @@ def register(mcp):
         """Show recent commits in the workspace, newest first."""
         if not 1 <= limit <= 50:
             raise ValueError("limit must be between 1 and 50.")
-        out = _git("log", f"-{limit}", "--oneline")
+        log_call("git_log", f"limit={limit}")
+        try:
+            out = _git("log", f"-{limit}", "--oneline")
+        except ValueError as e:
+            if "does not have any commits" in str(e):
+                return "No commits yet."
+            raise
         return out or "No commits yet."

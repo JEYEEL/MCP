@@ -1,4 +1,5 @@
 from sandbox import WORKSPACE_ROOT, resolve_path, SandboxError
+from audit import log_call
 
 MAX_LINE_CHARS = 200
 
@@ -11,6 +12,7 @@ def register(mcp):
         reading whole files to find where something is."""
         if not query.strip():
             raise ValueError("query is empty.")
+        log_call("search_files", f"{query!r} in {path}")
         try:
             start = resolve_path(path)
         except SandboxError as e:

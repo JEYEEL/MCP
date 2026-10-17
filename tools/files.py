@@ -18,6 +18,7 @@ def register(mcp):
         """List files and folders inside a workspace folder.
         Use path "." for the workspace root. Folders end with "/"."""
         folder = _safe_path(path)
+        log_call("list_files", path)
         if not folder.is_dir():
             raise ValueError(f"Not a folder: {path}. Use list_files('.') to see what exists.")
         items = sorted(folder.iterdir(), key=lambda p: (p.is_file(), p.name))
@@ -30,6 +31,7 @@ def register(mcp):
         """Read a text file from the workspace. Optionally read only lines
         start_line to end_line (1-based, inclusive) to keep output small."""
         file = _safe_path(path)
+        log_call("read_file", f"{path} lines {start_line}-{end_line or 'end'}")
         if not file.is_file():
             raise ValueError(f"File not found: {path}. Use list_files to see what exists.")
         if start_line < 1:
