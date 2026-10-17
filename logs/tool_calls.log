@@ -107,3 +107,40 @@
 2026-10-16T17:40:20 | auth_failed | /favicon.ico
 2026-10-16T17:51:04 | auth_failed | /mcp
 2026-10-16T17:51:05 | auth_failed | /mcp
+2026-10-17T08:12:33 | auth_failed | POST /mcp header_len=0 scheme='' got_fp=none want_fp=3ded5fa7
+2026-10-17T08:12:33 | auth_failed | POST /mcp header_len=12 scheme='Bearer' got_fp=8810ad58 want_fp=3ded5fa7
+2026-10-17T08:16:53 | auth_failed | POST /mcp header_len=0 scheme='' got_fp=none want_fp=3ded5fa7
+2026-10-17T08:16:53 | auth_failed | POST /mcp header_len=12 scheme='Bearer' got_fp=8810ad58 want_fp=3ded5fa7
+2026-10-17T08:19:41 | write_file | demo/hello.txt (3 chars)
+2026-10-17T08:21:45 | read_file | demo/hello.txt lines 1-1
+2026-10-17T08:22:01 | read_file | demo/hello.txt lines 1-1
+2026-10-17T08:22:05 | read_file | demo/hello.txt lines 2-1
+2026-10-17T08:22:10 | read_file | demo/hello.txt lines 1-end
+2026-10-17T08:23:03 | write_file | demo/hello.txt (3 chars)
+2026-10-17T08:26:46 | str_replace | demo/hello.txt
+2026-10-17T08:27:00 | search_files | '2' in .
+2026-10-17T08:30:11 | delete_file | demo/hello.txt
+2026-10-17T08:41:16 | read_file | demo/hello.txt lines 1-end
+2026-10-17T08:42:18 | read_file | demo/hello.txt lines 1-1
+2026-10-17T08:42:39 | read_file | demo/hello.txt lines 1-end
+2026-10-17T08:43:05 | write_file | demo/hello.txt (4 chars)
+2026-10-17T08:43:14 | read_file | demo/hello.txt lines 1-end
+2026-10-17T08:44:36 | search_files | 'two' in .
+2026-10-17T08:45:32 | delete_file | demo/hello.txt
+2026-10-17T08:46:23 | git_status | 
+2026-10-17T08:47:56 | auth_failed | POST /mcp header_len=0 scheme='' got_fp=none want_fp=3ded5fa7
+2026-10-17T08:47:56 | auth_failed | POST /mcp header_len=12 scheme='Bearer' got_fp=8810ad58 want_fp=3ded5fa7
+2026-10-17T08:53:34 | auth_failed | POST / header_len=0 scheme='' got_fp=none want_fp=3ded5fa7
+2026-10-17T08:53:35 | auth_failed | POST / header_len=12 scheme='Bearer' got_fp=8810ad58 want_fp=3ded5fa7
+2026-10-17T08:54:11 | auth_failed | POST /mcp header_len=0 scheme='' got_fp=none want_fp=3ded5fa7
+2026-10-17T08:54:12 | auth_failed | POST /mcp header_len=12 scheme='Bearer' got_fp=8810ad58 want_fp=3ded5fa7
+2026-10-17T09:34:44 | read_file | PROJECT_STATE.md lines 1-end
+2026-10-17T09:34:44 | write_file | PLAN_LOG.md (107 chars)
+2026-10-17T09:34:45 | write_file | study_planner.py (112 chars)
+2026-10-17T09:34:45 | git_commit | Scaffold study planner CLI
+2026-10-17T09:34:45 | write_file | CHECKPOINTS.md (178 chars)
+2026-10-17T09:34:45 | read_file | CHECKPOINTS.md lines 1-end
+2026-10-17T09:34:45 | str_replace | study_planner.py
+2026-10-17T09:34:45 | git_status | 
+2026-10-17T09:34:45 | git_commit | Implement priority sorting
+2026-10-17T09:34:45 | write_file | PROJECT_STATE.md (141 chars)
